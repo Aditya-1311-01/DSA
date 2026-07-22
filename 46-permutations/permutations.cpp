@@ -1,36 +1,31 @@
 class Solution {
 public:
+    vector<vector<int>> ans;
+    unordered_set<int> st;
+    int n;
 
-    void fun(vector<int>& nums, int n, vector<int>& diary,
-             vector<vector<int>>& ans, vector<int>& vis){
 
-        if(diary.size() == n){
-            ans.push_back(diary);
-            return;
+    void per(vector<int>& temp, vector<int> arr) {
+        if(temp.size() == n){
+            ans.push_back(temp);
+            return ;
         }
+        for (int i = 0; i < n; i++) {
+            if(st.find(arr[i]) == st.end()){
+                temp.push_back(arr[i]);
+                st.insert(arr[i]);
 
-        for(int i = 0; i < n; i++){
+                per(temp,arr);
 
-            if(vis[i]) continue;
-
-            vis[i] = 1;
-            diary.push_back(nums[i]);
-
-            fun(nums, n, diary, ans, vis);
-
-            diary.pop_back();
-            vis[i] = 0;
+                temp.pop_back();
+                st.erase(arr[i]);
+            }  
         }
     }
-
     vector<vector<int>> permute(vector<int>& nums) {
-
-        vector<vector<int>> ans;
-        vector<int> diary;
-        vector<int> vis(nums.size(), 0);
-
-        fun(nums, nums.size(), diary, ans, vis);
-
+        vector<int> temp;
+        n = nums.size();
+        per(temp, nums);
         return ans;
     }
 };
