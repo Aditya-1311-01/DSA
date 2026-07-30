@@ -24,34 +24,32 @@ public:
 
         if(head==NULL || head->next==NULL) 
         return head;
-        ListNode *temp=head;
-        int count=0;
-        while(temp){
-            temp=temp->next;
-            count++;
-        }
         
-        k=k%count;
+        int n=1;
+        ListNode *last=head;
+        while(last->next){
+            n++;
+            last=last->next;
+        }
+
+        k=k%n;
         if(k==0) return head;
-        count-=k;
-        ListNode *curr=head,*prev=NULL;
-        while(count--){
-            prev=curr;
-            curr=curr->next;
-        }
-        prev->next=NULL;
-        ListNode *tail=curr;
+        ListNode *t=head;
+        int count=1;
+        while(t!=NULL){
+            if(count==(n-k))
+            break;
 
-        while(tail->next!=NULL){
-            tail=tail->next;
+            count++;
+
+            t=t->next;
         }
 
-        tail->next=head;
+        last->next=head;
+        ListNode *res=t->next;
+        t->next=NULL;
 
-        head=curr;
-        return head;
-
-
+        return res;
 
         
     }
