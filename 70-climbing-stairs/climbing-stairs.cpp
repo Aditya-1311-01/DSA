@@ -16,13 +16,13 @@ public:
 
         
         vector<int>dp(n+2,-1);
-        dp[n]=1;
-        dp[n+1]=0;
+        int curr,next=1,next2=0;
         for(int i=n-1;i>=0;i--){
-            dp[i]=dp[i+1]+dp[i+2];
+            curr=next+next2;
+            next2=next;
+            next=curr;
         }
-
-        return dp[0];
+        return curr;
         
     }
 };
