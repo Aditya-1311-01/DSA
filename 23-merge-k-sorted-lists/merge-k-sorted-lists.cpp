@@ -28,17 +28,22 @@ public:
         if(list1) tail->next=list1;
         else tail->next=list2;
 
-        return dummy->next;
+        ListNode *ans=dummy->next;
+        delete dummy;
+        return ans;
+    }
+    void mergesort(vector<ListNode*>& lists,int start,int end){
+        if(start>=end) return;
+        int mid=start+(end-start)/2;
+        mergesort(lists,start,mid);
+        mergesort(lists,mid+1,end);
+        lists[start]=merge(lists[start],lists[mid+1]);
     }
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         int k=lists.size();
         if(k==0) return NULL;
-        ListNode *head=lists[0];
-        for(int i=1;i<lists.size();i++){
-            head=merge(head,lists[i]);
-        }
-
-        return head;
+        mergesort(lists,0,k-1);
+        return lists[0];
         
     }
 };
