@@ -15,8 +15,21 @@ public:
     }
     int lengthOfLIS(vector<int>& nums) {
         int n=nums.size();
-        vector<vector<int>>dp(n,vector<int>(n+1,-1));
-        return f(0,-1,n,nums,dp); // 0->curr index, -1->prev index
-        
+        vector<int>temp;
+        temp.push_back(nums[0]);
+        int len=1;
+
+        for(int i=1;i<n;i++){
+            if(nums[i]>temp.back()){
+                temp.push_back(nums[i]);
+                len++;
+            }
+            else{
+                int ind=lower_bound(temp.begin(),temp.end(),nums[i])-temp.begin();
+                temp[ind]=nums[i];
+            }
+        }
+
+        return len;
     }
 };
