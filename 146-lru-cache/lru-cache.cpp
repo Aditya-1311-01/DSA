@@ -68,14 +68,19 @@ public:
 
     // Function to put key-value into cache
     void put(int key_, int value) {
-        // If key already exists
-        if (m.find(key_) != m.end()) {
-            Node* existingNode = m[key_];
-            existingNode->val=value;
-            m.erase(key_);
-            deleteNode(existingNode);
-            
-        }
+        // Key already exists
+    if (m.find(key_) != m.end()) {
+
+        Node* existingNode = m[key_];
+
+        existingNode->val = value;
+
+        // Move existing node to front
+        deleteNode(existingNode);
+        addNode(existingNode);
+
+        return;
+    }
         // If capacity reached
         if (m.size() == cap) {
             m.erase(tail->prev->key);
