@@ -6,14 +6,14 @@ public:
         for(auto &c:word){
             freq[c-'a']++;
         }
-        string new_word="";
-        for(int i=0;i<26;i++){
-            if(freq[i]>0){
-                new_word+=string(freq[i],i+'a');
-            } 
+         string key = "";
+
+        for (int i = 0; i < 26; i++) {
+            key += to_string(freq[i]);
+            key += '#';
         }
 
-        return new_word;
+        return key;
     }
     
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
