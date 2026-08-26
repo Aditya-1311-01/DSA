@@ -71,8 +71,10 @@ public:
         // If key already exists
         if (m.find(key_) != m.end()) {
             Node* existingNode = m[key_];
+            existingNode->val=value;
             m.erase(key_);
             deleteNode(existingNode);
+            
         }
         // If capacity reached
         if (m.size() == cap) {
