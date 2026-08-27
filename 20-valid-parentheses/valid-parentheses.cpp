@@ -8,28 +8,12 @@ public:
             else{
                 if(st.empty())
                 return 0;
-                else if(s[i]==')')
-                {
-                    if(st.top()!='(')
-                    return 0;
-                    else
-                    st.pop();
-                }
+                char ch=st.top();
+                st.pop();
+                if(s[i]==')'&& ch=='(' || s[i]==']'&& ch=='[' || s[i]=='}' && ch=='{')
+                continue;
 
-                else if(s[i]=='}')
-                {
-                    if(st.top()!='{')
-                    return 0;
-                    else
-                    st.pop();
-                }
-                else
-                {
-                     if(st.top()!='[')
-                    return 0;
-                    else
-                    st.pop();
-                }
+                else return false;
 
             }
         }
