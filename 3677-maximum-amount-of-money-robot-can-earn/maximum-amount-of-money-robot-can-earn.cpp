@@ -11,7 +11,7 @@ public:
             return coins[i][j];
         }
 
-        if(dp[i][j][normalization]!=-1e9) return dp[i][j][normalization];
+        if(dp[i][j][normalization]!=-1) return dp[i][j][normalization];
 
         int up=-1e9;
         int left=-1e9;
@@ -31,7 +31,7 @@ public:
         int m=coins.size();
         int n=coins[0].size();
 
-        vector<vector<vector<int>>>dp(m,vector<vector<int>>(n,vector<int>(3,-1e9)));
+        vector<vector<vector<int>>>dp(m,vector<vector<int>>(n,vector<int>(3,-1)));
 
         return f(m-1,n-1,2,coins,dp);
         
