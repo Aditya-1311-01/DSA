@@ -1,57 +1,27 @@
 class Solution {
-public:
+ public:
+     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
 
-    struct comp {
-        bool operator()(const pair<int,int>& a,
-                        const pair<int,int>& b) {
+        int n = arr.size();
 
-            if(a.first != b.first)
-                return a.first < b.first;
+        vector<pair<int, int>> temp;
 
-            return a.second < b.second;
+        for(int i = 0; i < n; i++) {
+
+            int diff = abs(arr[i] - x);
+
+             temp.push_back({diff, arr[i]});
         }
-    };
-
-    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-
-        priority_queue<
-            pair<int,int>,
-            vector<pair<int,int>>,
-            comp
-        > pq;
-
-        for(int element : arr) {
-
-            int diff = abs(element - x);
-
-            if(pq.size() < k) {
-                pq.push({diff, element});
-            }
-            else {
-
-                if(diff < pq.top().first) {
-
-                    pq.pop();
-                    pq.push({diff, element});
-                }
-                else if(diff == pq.top().first &&
-                        element < pq.top().second) {
-
-                    pq.pop();
-                    pq.push({diff, element});
-                }
-            }
-        }
+        sort(temp.begin(), temp.end());
 
         vector<int> ans;
 
-        while(!pq.empty()) {
-            ans.push_back(pq.top().second);
-            pq.pop();
+        for(int i = 0; i < k; i++) {
+            ans.push_back(temp[i].second);
         }
 
         sort(ans.begin(), ans.end());
 
-        return ans;
+       return ans;
     }
-};
+ };
