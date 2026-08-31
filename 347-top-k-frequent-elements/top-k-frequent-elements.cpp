@@ -1,46 +1,47 @@
 class Solution {
 public:
-    struct cmp {
-       bool operator()(pair<int,int>& a, pair<int,int>& b) {
-           if(a.first == b.first)
-               return a.second > b.second;   
-           return a.first > b.first;        
-       }
-   };
+    struct comp{
+        bool operator()(pair<int,int>&a , pair<int,int>&b){
+            if(a.first==b.first)
+            return a.second>b.second;
+
+            return a.first>b.first;
+        }
+    };
+    
 
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        priority_queue<pair<int,int>,vector<pair<int,int>>,cmp>pq;
-        unordered_map<int,int>f;
+       priority_queue<pair<int,int>,vector<pair<int,int>>,comp>pq;
 
-        for(auto num:nums){
-            f[num]++;
-        }
-
-        for(auto it:f){
+       int n=nums.size();
+       unordered_map<int,int>freq;
+       for(int i=0;i<n;i++){
+        freq[nums[i]]++;
+       }
+        for(auto it:freq){
             int element=it.first;
-            int freq=it.second;
+            int frequency=it.second;
 
-            pair<int,int>curr={freq,element};
+            pair<int,int>curr={frequency,element};
 
             if(pq.size()<k){
                 pq.push(curr);
                 continue;
             }
 
-            if(curr.first<pq.top().first)
-            continue;
+            if(curr.first<pq.top().first){
+                continue;
+            }
 
             pq.pop();
             pq.push(curr);
         }
-
-        vector<int>res;
+        vector<int>ans;
         while(!pq.empty()){
-            res.push_back(pq.top().second);
+            ans.push_back(pq.top().second);
             pq.pop();
         }
 
-        return res;
-        
+        return ans;
     }
 };
