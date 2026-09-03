@@ -7,18 +7,21 @@ public:
             ans.push_back(ds);
             return;
         }
+        if (idx >= arr.size() || target < 0) {
+            return;
+        }
 
-        for(int i=idx;i<arr.size();i++){
-            if(i>idx && arr[i]==arr[i-1]) continue;// duplicate hta dega
 
-            if(arr[i]>target) break;
-
-            ds.push_back(arr[i]);
-            find(i+1,target-arr[i],arr,ans,ds);
+        if(arr[idx]<=target){
+            ds.push_back(arr[idx]);
+            find(idx+1,target-arr[idx],arr,ans,ds);
             ds.pop_back();
 
-
         }
+        while(idx+1<arr.size()&&arr[idx]==arr[idx+1]){
+            idx++;
+        }
+        find(idx+1,target,arr,ans,ds);
     }
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
 
