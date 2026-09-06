@@ -4,7 +4,7 @@ public:
         int n=nums.size();
         if(n==0) return 0;
         int longest=1;
-        int cnt=0;
+        int cnt=1;
         int prevsmallest=INT_MIN;
 
         sort(nums.begin(),nums.end());
