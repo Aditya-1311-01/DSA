@@ -11,26 +11,27 @@
  */
 class Solution {
 public:
-    pair<int,int> postorder(TreeNode *root,int &ans){
-        if(!root){
-            return {0,0};
-        }
+    pair<int,int> dfs(TreeNode* root,int &ans){
+        if(!root)
+        return {0,0};
 
-        pair<int,int> left=postorder(root->left,ans);
-        pair<int,int> right=postorder(root->right,ans);
+        pair<int,int>left=dfs(root->left,ans);
 
-        int sum=left.first+right.first+ root->val;
-        int count=left.second + right.second +1;
+        pair<int,int>right=dfs(root->right,ans);
 
-        int avg=sum/count;
-        if(avg==root->val) ans++;
+        int count=left.second+right.second+1;
+        int sum=left.first+right.first+root->val;
+
+        if(root->val==(sum/count))
+        ans++;
 
         return {sum,count};
     }
     int averageOfSubtree(TreeNode* root) {
         int ans=0;
-        postorder(root,ans);
-        return  ans;
-        
+
+        dfs(root,ans);
+
+        return ans;
     }
 };
