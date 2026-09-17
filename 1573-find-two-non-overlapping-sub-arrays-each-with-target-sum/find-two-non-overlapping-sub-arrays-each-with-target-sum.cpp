@@ -1,87 +1,57 @@
 class Solution {
 public:
-    int minSumOfLengths(vector<int>& arr, int target) {
+    int minSumOfLengths(vector<int>& nums, int target) {
 
-        int n = arr.size();
+        int n = nums.size();
 
         vector<int> prefix(n, -1);
         vector<int> suffix(n, -1);
 
-        // PREFIX
-        // prefix[i] = minimum length of a valid
-        // subarray ending at or before i
+        int sum=0;
+        int best=INT_MAX;
+        unordered_map<int,int>mp;
 
-        unordered_map<int, int> mp;
+        for(int i=0;i<n;i++){
+            sum+=nums[i];
 
-        int sum = 0;
-        int best = INT_MAX;
-
-        for(int i = 0; i < n; i++) {
-
-            sum += arr[i];
-
-            if(sum == target) {
-                best = min(best, i + 1);
+            if(sum==target){
+                best=min(best,i+1);
             }
 
-            int rem = sum - target;
-
-            if(mp.find(rem) != mp.end()) {
-
-                int j = mp[rem];
-
-                best = min(best, i - j);
+            if(mp.find(sum-target)!=mp.end()){
+                best=min(best,i-mp[sum-target]);
             }
+            prefix[i]=(best==INT_MAX?-1:best);
 
-            prefix[i] = (best == INT_MAX ? -1 : best);
-
-            mp[sum] = i;
+            mp[sum]=i;
         }
-
-
-        // SUFFIX
-        // suffix[i] = minimum length of a valid
-        // subarray starting at or after i
-
         mp.clear();
+        best=INT_MAX;
+        sum=0;
+        for(int i=n-1;i>=0;i--){
+            sum+=nums[i];
 
-        sum = 0;
-        best = INT_MAX;
-
-        for(int i = n - 1; i >= 0; i--) {
-
-            sum += arr[i];
-
-            if(sum == target) {
-                best = min(best, n - i);
+            if(sum==target){
+                best=min(best,n-i);
             }
-
-            int rem = sum - target;
-
-            if(mp.find(rem) != mp.end()) {
-
-                int j = mp[rem];
-
-                best = min(best, j - i);
+            if(mp.find(sum-target)!=mp.end()){
+                best=min(best,mp[sum-target]-i);
             }
+            suffix[i]=(best==INT_MAX?-1:best);
 
-            suffix[i] = (best == INT_MAX ? -1 : best);
-
-            mp[sum] = i;
+            mp[sum]=i;
         }
 
+        int ans=INT_MAX;
 
-        // Combine prefix and suffix
-        int ans = INT_MAX;
-
-        for(int i = 0; i < n - 1; i++) {
-
-            if(prefix[i] != -1 && suffix[i + 1] != -1) {
-
-                ans = min(ans, prefix[i] + suffix[i + 1]);
+        for(int i=0;i<n-1;i++){
+            if(prefix[i]!=-1 && suffix[i+1]!=-1){
+                ans=min(ans,prefix[i]+suffix[i+1]);
             }
         }
 
-        return ans == INT_MAX ? -1 : ans;
+        return ans==INT_MAX?-1:ans;
+
+        
     }
 };
