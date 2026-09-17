@@ -1,57 +1,39 @@
 class Solution {
 public:
-    int minSumOfLengths(vector<int>& nums, int target) {
+    int minSumOfLengths(vector<int>& arr, int target) {
+        int n = arr.size();
 
-        int n = nums.size();
+        int i = 0;
+        int j = 0;
 
-        vector<int> prefix(n, -1);
-        vector<int> suffix(n, -1);
+        int currSum = 0;
+        vector<int> minBestLenTillIdx(n, INT_MAX);
 
-        int sum=0;
-        int best=INT_MAX;
-        unordered_map<int,int>mp;
+        int bestMinLen = INT_MAX;
+        int result = INT_MAX;
 
-        for(int i=0;i<n;i++){
-            sum+=nums[i];
 
-            if(sum==target){
-                best=min(best,i+1);
+        while(j < n) {
+            currSum += arr[j];
+
+            while(i < j && currSum > target) {
+                currSum -= arr[i++];
             }
 
-            if(mp.find(sum-target)!=mp.end()){
-                best=min(best,i-mp[sum-target]);
-            }
-            prefix[i]=(best==INT_MAX?-1:best);
+            if(currSum == target) {
+                int len = j - i + 1;
 
-            mp[sum]=i;
-        }
-        mp.clear();
-        best=INT_MAX;
-        sum=0;
-        for(int i=n-1;i>=0;i--){
-            sum+=nums[i];
+                if(i > 0 && minBestLenTillIdx[i-1] != INT_MAX) {
+                    result = min(result, len + minBestLenTillIdx[i-1]);
+                }
 
-            if(sum==target){
-                best=min(best,n-i);
+                bestMinLen = min(bestMinLen, len);
             }
-            if(mp.find(sum-target)!=mp.end()){
-                best=min(best,mp[sum-target]-i);
-            }
-            suffix[i]=(best==INT_MAX?-1:best);
 
-            mp[sum]=i;
+            minBestLenTillIdx[j] = bestMinLen;
+            j++;
         }
 
-        int ans=INT_MAX;
-
-        for(int i=0;i<n-1;i++){
-            if(prefix[i]!=-1 && suffix[i+1]!=-1){
-                ans=min(ans,prefix[i]+suffix[i+1]);
-            }
-        }
-
-        return ans==INT_MAX?-1:ans;
-
-        
+        return result == INT_MAX ? -1 : result;
     }
 };
