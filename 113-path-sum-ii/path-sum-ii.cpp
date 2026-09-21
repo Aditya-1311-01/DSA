@@ -21,12 +21,16 @@ public:
         if(!root->left && !root->right){
             if(sum==targetSum){
                 ans.push_back(temp);
+                temp.pop_back();
+                return;
             }
         }
 
         f(root->left,targetSum,ans,temp,sum);
         f(root->right,targetSum,ans,temp,sum);
         temp.pop_back();
+        return;
+        
     }
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
         vector<vector<int>>ans;
