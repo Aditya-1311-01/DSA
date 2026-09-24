@@ -1,0 +1,25 @@
+class Solution {
+public:
+    long long find(int num){
+        long long sum=0;
+        while(num){
+            sum+=(num%10);
+            num/=10;
+        }
+        return sum;
+    }
+    int smallestIndex(vector<int>& nums) {
+        int  n=nums.size();
+        
+        for(int i=0;i<n;i++){
+            int sum=find(nums[i]);
+
+            if(sum==i){
+                return i;
+            }
+        }
+
+        return -1;
+        
+    }
+};
