@@ -18,9 +18,7 @@ public:
             ds.pop_back();
 
         }
-        while(idx+1<arr.size()&&arr[idx]==arr[idx+1]){
-            idx++;
-        }
+        
         find(idx+1,target,arr,ans,ds,count,k);
     }
     vector<vector<int>> combinationSum3(int k, int n) {
