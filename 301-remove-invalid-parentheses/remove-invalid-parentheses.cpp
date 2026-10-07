@@ -1,62 +1,79 @@
 class Solution {
 public:
-    void find(int ind, int count, string &s, string &temp,
-              vector<string> &ans, int &maxLen) {
 
-        if (ind == s.size()) {
-            if (count == 0) {
+    bool isValid(string s) {
+        int count = 0;
 
-                if (temp.size() > maxLen) {
-                    maxLen = temp.size();
-                    ans.clear();
-                    ans.push_back(temp);
-                }
-                else if (temp.size() == maxLen) {
-                    ans.push_back(temp);
-                }
+        for (char ch : s) {
+
+            if (ch == '(') {
+                count++;
             }
-            return;
-        }
+            else if (ch == ')') {
+                count--;
 
-        // Take
-        if (s[ind] == '(') {
-            temp += s[ind];
-
-            find(ind + 1, count + 1, s, temp, ans, maxLen);
-
-            temp.pop_back();
-        }
-        else if (s[ind] == ')') {
-
-            if (count > 0) {
-                temp += s[ind];
-
-                find(ind + 1, count - 1, s, temp, ans, maxLen);
-
-                temp.pop_back();
+                if (count < 0)
+                    return false;
             }
         }
-        else {
-            temp += s[ind];
 
-            find(ind + 1, count, s, temp, ans, maxLen);
-
-            temp.pop_back();
-        }
-
-        // Not Take
-        find(ind + 1, count, s, temp, ans, maxLen);
+        return count == 0;
     }
 
     vector<string> removeInvalidParentheses(string s) {
-        string temp = "";
+
         vector<string> ans;
-        int maxLen = 0;
 
-        find(0, 0, s, temp, ans, maxLen);
+        queue<string> q;
+        unordered_set<string> visited;
 
-        sort(ans.begin(), ans.end());
-        ans.erase(unique(ans.begin(), ans.end()), ans.end());
+        q.push(s);
+        visited.insert(s);
+
+        bool found = false;
+
+        while (!q.empty()) {
+
+            int size = q.size();
+
+            // Process one complete BFS level
+            while (size--) {
+
+                string curr = q.front();
+                q.pop();
+
+                // If valid, this is minimum removal level
+                if (isValid(curr)) {
+                    ans.push_back(curr);
+                    found = true;
+                }
+
+                // If we already found valid strings,
+                // don't generate next level
+                if (found)
+                    continue;
+
+                // Remove one parenthesis
+                for (int i = 0; i < curr.size(); i++) {
+
+                    // We only need to remove parentheses
+                    if (curr[i] != '(' && curr[i] != ')')
+                        continue;
+
+                    string next = curr.substr(0, i) +
+                                  curr.substr(i + 1);
+
+                    if (visited.find(next) == visited.end()) {
+                        visited.insert(next);
+                        q.push(next);
+                    }
+                }
+            }
+
+            // First valid level = minimum removals
+            if (found)
+                break;
+        }
 
         return ans;
     }
