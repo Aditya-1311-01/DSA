@@ -1,34 +1,22 @@
 class Solution {
 public:
     int findLHS(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
+
+        unordered_map<int, int> mp;
+
+        
+        for (int x : nums) {
+            mp[x]++;
+        }
 
         int ans = 0;
-        int i = 0, j = 0;
-        int mini = INT_MAX;
-        int maxi = INT_MIN;
 
-        int n = nums.size();
+        for (auto it : mp) {
+            int x = it.first;
 
-        while (j < n) {
-
-            maxi = nums[j];
-            mini = nums[i];
-
-            // If difference becomes greater than 1,
-            // move left pointer
-            while (maxi - mini > 1) {
-                i++;
-
-                mini = nums[i];
+            if (mp.find(x + 1) != mp.end()) {
+                ans = max(ans, mp[x] + mp[x + 1]);
             }
-
-            // Valid harmonious subsequence
-            if (maxi - mini == 1) {
-                ans = max(ans, j - i + 1);
-            }
-
-            j++;
         }
 
         return ans;
