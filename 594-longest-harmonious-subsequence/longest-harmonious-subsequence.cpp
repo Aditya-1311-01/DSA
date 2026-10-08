@@ -5,15 +5,26 @@ public:
 
         int ans = 0;
         int i = 0, j = 0;
+        int mini = INT_MAX;
+        int maxi = INT_MIN;
+
         int n = nums.size();
 
         while (j < n) {
 
-            while (nums[j] - nums[i] > 1) {
+            maxi = nums[j];
+            mini = nums[i];
+
+            // If difference becomes greater than 1,
+            // move left pointer
+            while (maxi - mini > 1) {
                 i++;
+
+                mini = nums[i];
             }
 
-            if (nums[j] - nums[i] == 1) {
+            // Valid harmonious subsequence
+            if (maxi - mini == 1) {
                 ans = max(ans, j - i + 1);
             }
 
