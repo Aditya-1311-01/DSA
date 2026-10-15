@@ -4,18 +4,14 @@ public:
         int n = nums.size();
         int ans = 0;
 
-        for (int i = 0; i < n; i++) {
-            int freq[101] = {0};
-            int distinct = 0;
-
-            for (int j = i; j < n; j++) {
-                if (freq[nums[j]] == 0) {
-                    distinct++;
-                }
-
+        
+        for(int i=0;i<n;i++){
+            unordered_map<int,int>freq;
+            for(int j=i;j<n;j++){
                 freq[nums[j]]++;
 
-                ans += distinct * distinct;
+                int distinct=freq.size();
+                ans+=(distinct*distinct);
             }
         }
 
