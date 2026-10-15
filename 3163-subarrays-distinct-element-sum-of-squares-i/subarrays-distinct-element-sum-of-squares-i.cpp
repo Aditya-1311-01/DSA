@@ -5,12 +5,16 @@ public:
         int ans = 0;
 
         for (int i = 0; i < n; i++) {
-            unordered_map<int, int> mp;
+            int freq[101] = {0};
+            int distinct = 0;
 
             for (int j = i; j < n; j++) {
-                mp[nums[j]]++;
+                if (freq[nums[j]] == 0) {
+                    distinct++;
+                }
 
-                int distinct = mp.size();
+                freq[nums[j]]++;
+
                 ans += distinct * distinct;
             }
         }
