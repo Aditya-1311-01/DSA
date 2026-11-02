@@ -2,7 +2,7 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
 
-        vector<bool>count(256,0);
+        vector<bool>count(128,0);
         int first=0,second=0,len=0;
 
         while(second<s.size())
