@@ -1,18 +1,12 @@
 class Solution {
 public:
     bool checkString(string s) {
-        stack<char>st;
-        for(int i=0;i<s.size();i++){
-            if(st.empty()){
-                st.push(s[i]);
-            }
-
-            if(s[i]=='a'){
-                if(st.top()=='b')
+        int n=s.size();
+        for(int i=0;i<n;i++){
+            if(s[i]=='a' && i>0){
+                if(s[i-1]=='b')
                 return false;
             }
-
-            st.push(s[i]);
         }
 
         return true;
